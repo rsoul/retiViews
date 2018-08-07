@@ -1,0 +1,63 @@
+<html>
+<head>
+  <style type="text/css">
+  .mapboxgl-marker {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border:1px solid gray;
+    background-color:lightblue;
+    position: relative;
+}</style>
+	<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
+  <link href='//mapbox.com/base/latest/base.css' rel='stylesheet' />
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+    
+    var socket = io();
+    socket.on('car-info',(data)=>{
+      obj=JSON.parse(data);
+      var el = document.createElement('div');
+      el.className = 'marker'+obj.id;
+      el.style.width = '15px';
+      el.style.height = '15px';
+      console.log(obj.pos)
+      new mapboxgl.Marker(el,{offset: [-30, -35]}).setLngLat(obj.pos).addTo(map);
+    })
+
+  </script>
+</head>
+
+<body>
+	
+	
+  <div style="height: 100%">
+  <div id='map' style="height: 100%"></div>
+  <div class='pin-right pad2'>
+    <a href='#step-4' class='button'>Log out</a>
+  </div>
+  <div id='step-4' class='col4 pad2 fill-dark pin-left offcanvas-left animate'>
+    <a href='#' class='fill-darken2 pad1 icon close'></a>
+    <h1> Ur mom </h1>
+  </div>
+</div>
+
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoicnNvdWxsIiwiYSI6ImNqa2l3c2F0dTFhMTkza28zNXhnMjZ4b3UifQ.EuutLwZpj-2ZD5LVZiDlvw';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v9',
+    maxZoom: 15,
+    minZoom: 1
+  }).setCenter([12.50,41.89]).setZoom(10.8);
+
+</script>
+
+</body>
+
+</html>
