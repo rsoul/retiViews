@@ -1,24 +1,38 @@
+
+
 const turf = require('@turf/turf');
 function Car(id,fuel_level){
 	this.id=id;
 	this.fuel_level=fuel_level;
 	this.pos=getRandomLegalPosition();
 	this.inUse=false;
+	this.color='#'+(Math.floor(Math.random()*16777215).toString(16));
 }
 const availableArea=[12.38,41.82,12.60,41.96];
 function getRandomLegalPosition(){
 	return turf.randomPosition(availableArea)
 }
+/*
+function planTrip(car,destination){
+	start=car.pos
 
+	if(not enough fuel||inUse==true){
+		return false;
+	}
+	else{
 
+	}
+}*/
+
+function getRoute(startingPoint,destination){
+	return ('https://api.mapbox.com/directions/v5/mapbox/driving/'+startingPoint[0]+','+startingPoint[1]+';'+destination[0]+','+destination[1]+'?geometries=geojson&access_token=pk.eyJ1IjoicnNvdWxsIiwiYSI6ImNqa2l3c2F0dTFhMTkza28zNXhnMjZ4b3UifQ.EuutLwZpj-2ZD5LVZiDlvw')
+}
 var cars=[]
 
-for (var i = 1; i < 50; i++) {
+for (var i = 1; i < 25; i++) {
 	new_car=new Car(i,100)
-	cars.push(new_car)
-	console.log(new_car.pos)
+	cars.push(new_car)	
 }
-
 
 var express = require('express');
 var app = express();
@@ -30,7 +44,7 @@ const Gstrategy= require('passport-google-oauth20')
 
 
 
-const keys = require("./keys");
+
 
 
 
@@ -54,8 +68,12 @@ io.on('connection',function(socket){
 		console.log("sending car ",cars[i].id)
 	}
 	
-
+	for(var i=1;i<5;i++){
+	io.emit('route',getRoute(cars[i].pos,getRandomLegalPosition()));
+}
 	})
+
+
 
 
 

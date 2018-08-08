@@ -2,15 +2,37 @@
 <head>
   <style type="text/css">
   .mapboxgl-marker {
-    width: 25px;
-    height: 25px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
-    border:1px solid gray;
-    background-color:lightblue;
-    position: relative;
-}</style>
-	<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-  <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+    border:1px solid #fff;
+    position='absolute';}
+  #logo{
+    color:#fff;
+    font-family: 'IBM Plex Serif',
+    serif;
+    font-size:40pt;
+    padding-top:35px;
+    font-weight: 600;
+    font-style: italic; 
+  }
+  .r-titles{
+    color:#fff;
+    font-family: 'Quicksand', 
+    sans-serif;
+    font-size:15pt;
+    padding-top:20px;
+    font-wight:800; 
+
+  }
+  .r-text{}
+  .event-identifier{}
+  .l-titles{}
+
+  </style>
+	
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Serif|Quicksand" rel="stylesheet">
+
 	<script src='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
   <link href='//mapbox.com/base/latest/base.css' rel='stylesheet' />
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
@@ -18,18 +40,27 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script>
-    
+    var cars=[];
     var socket = io();
     socket.on('car-info',(data)=>{
       obj=JSON.parse(data);
+
       var el = document.createElement('div');
-      el.className = 'marker'+obj.id;
-      el.style.width = '15px';
-      el.style.height = '15px';
-      console.log(obj.pos)
-      new mapboxgl.Marker(el,{offset: [-30, -35]}).setLngLat(obj.pos).addTo(map);
+      el.style.backgroundColor=obj.color;
+      new mapboxgl.Marker(el,).setLngLat(obj.pos).addTo(map);
     })
 
+
+    
+    socket.on('route',(routeURL)=>{
+       $.ajax({method: 'GET',url: routeURL}).done((data)=>{
+        console.log();
+        map.addLayer({id: 'route'+Math.random(),type:'line',source:{type:'geojson',data:{type:'Feature',geometry: data.routes[0].geometry}},paint:{'line-width': 2,'line-color':'white'}});
+       })
+
+
+     })
+    
   </script>
 </head>
 
@@ -39,12 +70,22 @@
   <div style="height: 100%">
   <div id='map' style="height: 100%"></div>
   <div class='pin-right pad2'>
-    <a href='#step-4' class='button'>Log out</a>
+    
   </div>
-  <div id='step-4' class='col4 pad2 fill-dark pin-left offcanvas-left animate'>
+  <div id='step-4' class='col3 pad2 fill-darken1 pin-left offcanvas-left animate'>
     <a href='#' class='fill-darken2 pad1 icon close'></a>
     <h1> Ur mom </h1>
   </div>
+  <div id="r-panel" class='col2 pad2 fill-darken3 pin-right'>
+    <a href='#step-4' class='button'>Log out</a>
+    <h2 id='logo'>Vie.ws</h2>
+    <h3 class='r-titles'> ACTIVE TRIPS</h4>
+    <h2 id='logo'>7</h2>
+    <h3 class='r-titles'> LIVE EVENTS</h3>
+    <div id='livefeed'>
+    </div>
+   </div>
+
 </div>
 
 <script>
@@ -53,7 +94,8 @@
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v9',
     maxZoom: 15,
-    minZoom: 1
+    minZoom: 1,
+    attributionControl: false
   }).setCenter([12.50,41.89]).setZoom(10.8);
 
 </script>
