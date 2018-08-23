@@ -70,6 +70,7 @@
     var cars=[];
     var trips=[];
     var socket = io();
+
   //MQTT car live feed
     var mqtt = mqtt.connect('ws://localhost:4545')
     mqtt.on('connect',()=>{
@@ -78,7 +79,21 @@
     })
     mqtt.on("message", function (topic,payload) {
       //update car position
-      console.log(topic,JSON.parse(payload.toString()));
+      obj=JSON.parse(payload.toString());
+      if($('#car1').lenght==0){
+        
+
+      var el = document.createElement('div');
+      el.id = 'car'+obj.id
+      el.style.backgroundColor=obj.color;
+      console.log('creating'+obj.pos)
+      new mapboxgl.Marker(el,).setLngLat(obj.pos).addTo(map);}
+      else{
+        console.log(obj.pos)
+        $('#car1').setLngLat(obj.pos).update()
+      
+      
+      }
     })
 
   //Websockets
@@ -95,7 +110,7 @@
     
     socket.on('route',(route,color)=>{
        console.log(route)
-        map.addLayer({id: 'route'+Math.random(),type:'line',source:{type:'geojson',data:{type:'Feature',geometry: route.routes[0].geometry}},paint:{'line-width': 2.5,'line-color':color}});
+        map.addLayer({id: 'route'+route.id,type:'line',source:{type:'geojson',data:{type:'Feature',geometry: route.routes[0].geometry}},paint:{'line-width': 2.5,'line-color':color}});
        })
 
 

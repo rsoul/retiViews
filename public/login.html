@@ -1,5 +1,6 @@
 <html>
 <head>
+  <title>Login | Vie.ws</title>
   <style type="text/css">
 
   #logo{
@@ -9,7 +10,7 @@
     font-size:40pt;
     padding-top:35px;
     padding-bottom: 20px;
-    font-weight: 600;
+    font-weight: 800;
     font-style: italic; 
   }
   
@@ -41,13 +42,16 @@
     padding-top:10px;
     font-weight:500;
   }
+  .form{
+    align:'center';
+  }
 
   </style>
 	
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Serif|Quicksand" rel="stylesheet">
 
 	
-  <link href='//mapbox.com/base/latest/base.css' rel='stylesheet' />
+  <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
   
   <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js'></script>
   
@@ -55,8 +59,38 @@
   <link rel="shortcut icon" type="image/x-icon" href="https://static.squarespace.com/universal/default-favicon.ico">
 
 </head>
-<body>
+<body class='fill-darken3'>
 
+<div class='col10 clearfix margin1 fill-dark dark'>
+    <div>
+      <a class='button stroke' href="/signup" style="float:right;margin-top:35px;">Sign up</a>
+    <h1 id="logo">Vie.ws</h1>
+    
+
+  </div>
+
+
+  <div class='row4 fill-dark dark' style="margin-top:5%">
+    <form>
+    <fieldset>
+    <label class='fancy'>EMAIL</label>
+    <input type='text' class='stretch'/>
+    </fieldset>
+
+    <fieldset class='form'>
+    <label class='fancy'>PASSWORD</label>
+    <input type='text' class='stretch'/>
+    </fieldset>
+
+  </form>
+</div>
+  
+
+  <div>
+    <button class='button'> Log In </button>
+  </div>
+  
+</div>
   
 </body>
 
